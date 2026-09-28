@@ -50,9 +50,7 @@ Some planned improvements include:
 * Leaderboards
 * Additional game modes
 
-## 🌐 Live Demo
-
-**Coming soon**
+Play Code Quest: https://zerocreator.itch.io/code-quest
 
 ## 👨‍💻 Author
 
