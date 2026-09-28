@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Code Quest v1.0</title>
+    <meta name="description"
+        content="Code Quest — learn Python, JavaScript, C, and HTML through interactive coding challenges, bug hunts, and boss battles.">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="home-screen">
+        <div class="mascot">
+            <img src="images/robot.jpg" alt="Coding mascot" class="mascot-img">
+        </div>
+        <h1>🎮 Code Quest</h1>
+        <p class="version-tag">v1.0</p>
+
+        <div class="stats-bar">
+            <div class="stat">⭐ XP: <span id="total-xp">0</span></div>
+            <div class="stat">🔥 Streak: <span id="current-streak">0</span></div>
+            <div class="stat">🏆 Rank: <span id="rank-label">Rookie</span></div>
+            <div class="stat">🥊 Arena: <span id="arena-matches">0</span></div>
+            <div class="stat">💻 Code Lab: <span id="codelab-progress">0 / 12</span></div>
+        </div>
+
+        <div class="card-grid">
+            <div class="lang-card" onclick="openWorld('python')">
+                <img src="images/python-badge.png" alt="Python" class="card-icon-img">
+                <h3>Python</h3>
+                <p class="card-tag" id="python-progress">0 / 3 levels</p>
+            </div>
+            <div class="lang-card" onclick="openWorld('javascript')">
+                <img src="images/js-badge.jpg" alt="JavaScript" class="card-icon-img">
+                <h3>JavaScript</h3>
+                <p class="card-tag" id="javascript-progress">0 / 3 levels</p>
+            </div>
+            <div class="lang-card" onclick="openWorld('c')">
+                <img src="images/c-badge.png" alt="C" class="card-icon-img">
+                <h3>C</h3>
+                <p class="card-tag" id="c-progress">0 / 3 levels</p>
+            </div>
+            <div class="lang-card" onclick="openWorld('html')">
+                <img src="images/html-badge.jpg" alt="HTML" class="card-icon-img">
+                <h3>HTML</h3>
+                <p class="card-tag" id="html-progress">0 / 3 levels</p>
+            </div>
+        </div>
+        <div class="mode-launcher">
+            <button class="battle-launch-btn" onclick="showBattleSelect()">⚔️ Language Battle Mode</button>
+            <button class="concept-launch-btn" onclick="showConceptMap()">🧠 Concept Map</button>
+            <button class="arena-launch-btn" onclick="showArenaSetup()">🥊 Sandbox Arena</button>
+            <button class="howto-launch-btn" onclick="showHowTo()">❓ How to Play</button>
+            <button class="codelab-launch-btn" onclick="showCodeLab()">💻 Code Lab</button>
+        </div>
+
+        <div id="badge-shelf">
+            <h3>Badges</h3>
+            <div id="badge-list" class="badge-list"></div>
+        </div>
+        <button class="reset-btn" onclick="confirmReset()">🗑️ Reset Progress</button>
+    </div>
+    <div class="leaderboard-box">
+        <input type="text" id="player-name-input" placeholder="Your name" maxlength="20">
+        <button class="summary-btn" onclick="submitToLeaderboard()">📤 Submit XP to Leaderboard</button>
+        <button class="back-btn" onclick="showLeaderboard()">🏆 View Leaderboard</button>
+    </div>
+
+    <div id="world-screen">
+        <button class="back-btn" onclick="showHome()">← Back</button>
+        <h2 id="world-title"></h2>
+        <p>Complete each level to unlock the next</p>
+        <div id="level-path" class="level-path"></div>
+    </div>
+    <div id="battle-screen">
+        <button class="back-btn" onclick="showHome()">← Back</button>
+        <h2>⚔️ Language Battle</h2>
+        <p>See code in one language, pick its matching twin in another</p>
+        <div id="battle-pairs" class="battle-pairs"></div>
+    </div>
+    <div id="concept-screen">
+        <button class="back-btn" onclick="showHome()">← Back</button>
+        <h2>🧠 Concept Map</h2>
+        <p>See which coding concepts you've practiced across all languages</p>
+        <div id="concept-grid" class="concept-grid"></div>
+    </div>
+    <div id="arena-screen">
+        <button class="back-btn" onclick="showHome()">← Back</button>
+        <h2>🥊 Sandbox Arena</h2>
+        <p>Same device, two players — pick a language to face off</p>
+        <div id="arena-lang-select" class="battle-pairs"></div>
+    </div>
+
+    <div id="arena-handoff-screen">
+        <div class="handoff-box">
+            <h2 id="handoff-title"></h2>
+            <p id="handoff-sub"></p>
+            <button class="summary-btn" onclick="beginArenaRun()">I'm Ready — Start</button>
+        </div>
+    </div>
+    <div id="arena-result-screen">
+        <h2>🥊 Match Results</h2>
+        <div id="arena-result-box"></div>
+        <button class="summary-btn" onclick="showArenaSetup()">Play Again</button>
+        <button class="back-btn" onclick="showHome()">← Home</button>
+    </div>
+    <div id="howto-screen">
+        <button class="back-btn" onclick="showHome()">← Back</button>
+        <h2>❓ How to Play</h2>
+        <ul class="howto-list">
+            <li><strong>🟢 Beginner levels</strong> — predict what a code snippet prints or does.</li>
+            <li><strong>🟡 Intermediate levels</strong> — includes Debugging, where you spot the buggy line before time
+                runs out.</li>
+            <li><strong>🔴 Challenge levels</strong> — Speed Code (faster timer) and a multi-step Boss level.</li>
+            <li>Score at least half of each level correct to pass and unlock the next one.</li>
+            <li>⚔️ <strong>Language Battle</strong> — translate the same program between two languages.</li>
+            <li>🥊 <strong>Sandbox Arena</strong> — pass-and-play, two players race the same questions.</li>
+            <li>🧠 <strong>Concept Map</strong> — tracks your accuracy per concept across every mode.</li>
+            <li>Progress is saved automatically in your browser.</li>
+        </ul>
+    </div>
+    <div id="leaderboard-screen">
+        <button class="back-btn" onclick="showHome()">← Back</button>
+        <h2>🏆 Global Leaderboard</h2>
+        <div id="leaderboard-list" class="leaderboard-list"></div>
+    </div>
+    <div id="codelab-screen">
+        <button class="back-btn" onclick="showHome()">← Back</button>
+        <h2>💻 Code Lab</h2>
+        <p>Actually write code — pick a language to start</p>
+        <div id="codelab-lang-select" class="battle-pairs"></div>
+    </div>
+
+    <div id="codelab-challenge-screen">
+        <button class="back-btn" onclick="showHome()">← Back</button>
+        <div id="codelab-heading" class="codelab-heading"></div>
+        <p id="codelab-prompt" class="codelab-prompt"></p>
+        <textarea id="code-input" class="code-input" spellcheck="false"></textarea>
+        <div class="codelab-controls">
+            <button class="summary-btn" id="run-code-btn" onclick="runCodeLabChallenge()">▶ Run Code</button>
+        </div>
+        <div id="codelab-output" class="codelab-output"></div>
+        <div id="codelab-next-area"></div>
+    </div>
+
+    <div id="game-area">
+        <button class="back-btn" onclick="showHome()">← Back</button>
+        <div id="level-heading"></div>
+        <div id="timer" class="timer"></div>
+        <pre id="code-snippet"></pre>
+        <div id="answers"></div>
+        <div id="feedback"></div>
+        <div id="score"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
